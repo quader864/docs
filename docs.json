@@ -51,18 +51,60 @@
         "tab": "API reference",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "Overview",
             "pages": [
               "api-reference/introduction"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Authentication",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "api-reference/auth/login",
+              "api-reference/auth/register",
+              "api-reference/auth/verify",
+              "api-reference/auth/logout"
+            ]
+          },
+          {
+            "group": "MT5 data",
+            "pages": [
+              "api-reference/mt5/update-account",
+              "api-reference/mt5/update-orders",
+              "api-reference/mt5/update-history"
+            ]
+          },
+          {
+            "group": "Sentiment",
+            "pages": [
+              "api-reference/sentiment/get-all",
+              "api-reference/sentiment/get-by-pair"
+            ]
+          },
+          {
+            "group": "Blog",
+            "pages": [
+              "api-reference/blog/get-posts",
+              "api-reference/blog/get-post",
+              "api-reference/blog/create-post",
+              "api-reference/blog/update-post",
+              "api-reference/blog/delete-post",
+              "api-reference/blog/toggle-like",
+              "api-reference/blog/approve-post",
+              "api-reference/blog/reject-post"
+            ]
+          },
+          {
+            "group": "Users",
+            "pages": [
+              "api-reference/users/get-users",
+              "api-reference/users/update-role"
+            ]
+          },
+          {
+            "group": "Health",
+            "pages": [
+              "api-reference/health/status",
+              "api-reference/health/info"
             ]
           }
         ]
