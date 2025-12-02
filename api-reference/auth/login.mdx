@@ -1,0 +1,82 @@
+---
+title: 'Login'
+description: 'Authenticate a user and receive a JWT token'
+api: 'POST /login'
+---
+
+## Request body
+
+<ParamField body="email" type="string" required>
+  User's email address
+</ParamField>
+
+<ParamField body="password" type="string" required>
+  User's password
+</ParamField>
+
+## Response
+
+<ResponseField name="message" type="string">
+  Success message
+</ResponseField>
+
+<ResponseField name="user" type="object">
+  User information
+  <Expandable title="properties">
+    <ResponseField name="firstName" type="string">
+      User's first name
+    </ResponseField>
+    <ResponseField name="lastName" type="string">
+      User's last name
+    </ResponseField>
+    <ResponseField name="email" type="string">
+      User's email
+    </ResponseField>
+    <ResponseField name="role" type="string">
+      User role (user, moderator, admin)
+    </ResponseField>
+    <ResponseField name="likedPosts" type="array">
+      Array of liked post IDs
+    </ResponseField>
+    <ResponseField name="profilePic" type="string">
+      Profile picture URL
+    </ResponseField>
+    <ResponseField name="createdAt" type="string">
+      Account creation timestamp
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://your-api.com/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com",
+    "password": "yourpassword"
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "message": "Login successful",
+  "user": {
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "user@example.com",
+    "role": "user",
+    "likedPosts": [],
+    "profilePic": "",
+    "createdAt": "2024-01-15T10:30:00.000Z"
+  }
+}
+```
+
+```json 401
+{
+  "message": "Invalid credentials"
+}
+```
+</ResponseExample>
