@@ -1,33 +1,63 @@
 ---
 title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+description: 'API reference for the MT5 Monitor API'
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+## Overview
 
-## Welcome
+The MT5 Monitor API provides endpoints for authentication, MT5 trading data management, sentiment analysis, blog management, and user administration.
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
-
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+**Base URL:** `https://your-api-domain.com`
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+Most endpoints require authentication using JWT tokens. After logging in, include the token in your requests:
+
+- **Cookie-based:** The token is automatically set as an HTTP-only cookie
+- **Bearer token:** Include in the `Authorization` header
+
+```bash
+Authorization: Bearer <your-token>
+```
+
+## API groups
+
+<CardGroup cols={2}>
+  <Card title="Authentication" icon="lock" href="/api-reference/auth/login">
+    User registration, login, logout, and token verification
+  </Card>
+  <Card title="MT5 Data" icon="chart-line" href="/api-reference/mt5/update-account">
+    Update and manage MT5 account data, orders, and history
+  </Card>
+  <Card title="Sentiment" icon="chart-pie" href="/api-reference/sentiment/get-all">
+    Retrieve market sentiment data
+  </Card>
+  <Card title="Blog" icon="newspaper" href="/api-reference/blog/get-posts">
+    Create, manage, and moderate blog posts
+  </Card>
+</CardGroup>
+
+## Response format
+
+All API responses follow a consistent JSON format:
 
 ```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
+{
+  "success": true,
+  "message": "Operation completed",
+  "data": { }
+}
 ```
+
+Error responses include an error message:
+
+```json
+{
+  "success": false,
+  "error": "Error description"
+}
+```
+
+## Rate limiting
+
+The API implements rate limiting to ensure fair usage. If you exceed the limit, you'll receive a `429 Too Many Requests` response.
