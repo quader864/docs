@@ -1,0 +1,88 @@
+---
+title: 'Update orders'
+description: 'Update MT5 open orders/positions'
+api: 'POST /mt5/update/orders'
+---
+
+## Request body
+
+<ParamField body="accountNumber" type="string" required>
+  MT5 account number
+</ParamField>
+
+<ParamField body="orders" type="array" required>
+  Array of open orders/positions
+  <Expandable title="order object">
+    <ParamField body="ticket" type="number">
+      Order ticket number
+    </ParamField>
+    <ParamField body="symbol" type="string">
+      Trading symbol (e.g., "EURUSD")
+    </ParamField>
+    <ParamField body="type" type="string">
+      Order type (buy/sell)
+    </ParamField>
+    <ParamField body="volume" type="number">
+      Position volume in lots
+    </ParamField>
+    <ParamField body="openPrice" type="number">
+      Entry price
+    </ParamField>
+    <ParamField body="currentPrice" type="number">
+      Current market price
+    </ParamField>
+    <ParamField body="profit" type="number">
+      Current profit/loss
+    </ParamField>
+    <ParamField body="openTime" type="string">
+      Position open timestamp
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## Response
+
+<ResponseField name="status" type="string">
+  Operation status ("ok" or "error")
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  Status message
+</ResponseField>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://your-api.com/mt5/update/orders \
+  -H "Content-Type: application/json" \
+  -d '{
+    "accountNumber": "12345678",
+    "orders": [
+      {
+        "ticket": 123456,
+        "symbol": "EURUSD",
+        "type": "buy",
+        "volume": 0.1,
+        "openPrice": 1.0850,
+        "currentPrice": 1.0875,
+        "profit": 25.00,
+        "openTime": "2024-01-15T10:30:00.000Z"
+      }
+    ]
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "status": "ok",
+  "message": "Orders updated"
+}
+```
+
+```json 500
+{
+  "status": "error"
+}
+```
+</ResponseExample>
