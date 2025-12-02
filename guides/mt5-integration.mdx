@@ -1,0 +1,126 @@
+---
+title: 'MT5 integration'
+description: 'Send MT5 trading data to the API'
+---
+
+## Overview
+
+The MT5 integration allows you to push trading data from MetaTrader 5 to the API. This includes account information, open positions, and closed trade history.
+
+## Prerequisites
+
+- An MT5 account number
+- Access to MT5 Expert Advisor (EA) or script development
+
+## Update account data
+
+Push account balance and margin information:
+
+```bash
+curl -X POST https://api-verifier-2.onrender.com/mt5/update/account \
+  -H "Content-Type: application/json" \
+  -d '{
+    "accountNumber": "12345678",
+    "balance": 10000.00,
+    "equity": 10500.00,
+    "margin": 500.00,
+    "freeMargin": 10000.00,
+    "leverage": 100
+  }'
+```
+
+## Update open orders
+
+Push current open positions:
+
+```bash
+curl -X POST https://api-verifier-2.onrender.com/mt5/update/orders \
+  -H "Content-Type: application/json" \
+  -d '{
+    "accountNumber": "12345678",
+    "orders": [
+      {
+        "ticket": 123456,
+        "symbol": "EURUSD",
+        "type": "buy",
+        "volume": 0.1,
+        "openPrice": 1.0850,
+        "currentPrice": 1.0875,
+        "profit": 25.00,
+        "openTime": "2024-01-15T10:30:00.000Z"
+      }
+    ]
+  }'
+```
+
+## Update trade history
+
+Push closed positions:
+
+```bash
+curl -X POST https://api-verifier-2.onrender.com/mt5/update/history \
+  -H "Content-Type: application/json" \
+  -d '{
+    "accountNumber": "12345678",
+    "closedPositions": [
+      {
+        "ticket": 123455,
+        "symbol": "GBPUSD",
+        "type": "sell",
+        "volume": 0.5,
+        "openPrice": 1.2650,
+        "closePrice": 1.2600,
+        "profit": 250.00,
+        "openTime": "2024-01-14T08:00:00.000Z",
+        "closeTime": "2024-01-15T14:30:00.000Z"
+      }
+    ]
+  }'
+```
+
+## MQL5 example
+
+Here's a basic MQL5 script to send account data:
+
+```cpp
+#include <JAson.mqh>
+
+void SendAccountData() {
+    string url = "https://api-verifier-2.onrender.com/mt5/update/account";
+    
+    CJAVal json;
+    json["accountNumber"] = IntegerToString(AccountInfoInteger(ACCOUNT_LOGIN));
+    json["balance"] = AccountInfoDouble(ACCOUNT_BALANCE);
+    json["equity"] = AccountInfoDouble(ACCOUNT_EQUITY);
+    json["margin"] = AccountInfoDouble(ACCOUNT_MARGIN);
+    json["freeMargin"] = AccountInfoDouble(ACCOUNT_MARGIN_FREE);
+    json["leverage"] = AccountInfoInteger(ACCOUNT_LEVERAGE);
+    
+    string jsonStr = json.Serialize();
+    
+    char data[];
+    char result[];
+    string headers = "Content-Type: application/json\r\n";
+    
+    StringToCharArray(jsonStr, data, 0, WHOLE_ARRAY, CP_UTF8);
+    
+    int res = WebRequest("POST", url, headers, 5000, data, result, headers);
+    
+    if(res == 200) {
+        Print("Account data sent successfully");
+    } else {
+        Print("Error sending data: ", res);
+    }
+}
+```
+
+<Note>
+  Remember to add `https://api-verifier-2.onrender.com` to the allowed URLs in MT5: Tools → Options → Expert Advisors → Allow WebRequest for listed URL.
+</Note>
+
+## Best practices
+
+1. **Update frequency** - Send account updates every 1-5 minutes, not on every tick
+2. **Error handling** - Implement retry logic for failed requests
+3. **Batch updates** - Send all open orders in a single request rather than individually
+4. **Timestamps** - Always include ISO 8601 formatted timestamps

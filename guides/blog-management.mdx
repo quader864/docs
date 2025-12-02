@@ -1,0 +1,104 @@
+---
+title: 'Blog management'
+description: 'Create, manage, and moderate blog posts'
+---
+
+## Overview
+
+The blog system supports creating posts, a moderation workflow, and user engagement through likes.
+
+## Post visibility states
+
+| State | Description |
+|-------|-------------|
+| `draft` | Saved but not submitted for review |
+| `pending` | Submitted and awaiting moderator approval |
+| `public` | Approved and visible to everyone |
+| `rejected` | Rejected by moderator with feedback |
+| `deleted` | Soft-deleted (hidden but not removed) |
+
+## Create a post
+
+```bash
+curl -X POST https://api-verifier-2.onrender.com/api/blog \
+  -H "Authorization: Bearer <your-token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "My Trading Strategy",
+    "contentRaw": "# Introduction\n\nThis is my trading strategy...",
+    "summary": "A detailed look at my trading approach",
+    "tags": ["strategy", "trading"],
+    "coverImageUrl": "https://example.com/cover.jpg",
+    "publish": true
+  }'
+```
+
+Set `publish: false` to save as draft, or `publish: true` to submit for approval.
+
+## Get all public posts
+
+```bash
+curl https://api-verifier-2.onrender.com/api/blog
+```
+
+## Get a single post
+
+```bash
+curl https://api-verifier-2.onrender.com/api/blog/my-trading-strategy-abc123
+```
+
+## Update a post
+
+```bash
+curl -X PATCH https://api-verifier-2.onrender.com/api/blog/<post-id> \
+  -H "Authorization: Bearer <your-token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Updated Title",
+    "contentRaw": "Updated content..."
+  }'
+```
+
+<Note>
+  When a regular user edits a public post, it returns to `pending` status for re-approval.
+</Note>
+
+## Like a post
+
+Toggle like on a post:
+
+```bash
+curl -X POST https://api-verifier-2.onrender.com/api/blog/<post-id>/toggle-like \
+  -H "Authorization: Bearer <your-token>"
+```
+
+## Moderation (moderator/admin only)
+
+### Approve a post
+
+```bash
+curl -X POST https://api-verifier-2.onrender.com/api/blog/<post-id>/approve \
+  -H "Authorization: Bearer <your-token>"
+```
+
+### Reject a post
+
+```bash
+curl -X POST https://api-verifier-2.onrender.com/api/blog/<post-id>/reject \
+  -H "Authorization: Bearer <your-token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "reason": "Content does not meet quality guidelines"
+  }'
+```
+
+## Delete a post
+
+```bash
+curl -X DELETE https://api-verifier-2.onrender.com/api/blog/<post-id> \
+  -H "Authorization: Bearer <your-token>"
+```
+
+- **Draft/pending posts**: Permanently deleted
+- **Public posts by author**: Soft deleted
+- **Any post by admin**: Permanently deleted
