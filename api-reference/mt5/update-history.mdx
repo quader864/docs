@@ -1,0 +1,92 @@
+---
+title: 'Update history'
+description: 'Update MT5 closed positions history'
+api: 'POST /mt5/update/history'
+---
+
+## Request body
+
+<ParamField body="accountNumber" type="string" required>
+  MT5 account number
+</ParamField>
+
+<ParamField body="closedPositions" type="array" required>
+  Array of closed positions
+  <Expandable title="position object">
+    <ParamField body="ticket" type="number">
+      Position ticket number
+    </ParamField>
+    <ParamField body="symbol" type="string">
+      Trading symbol
+    </ParamField>
+    <ParamField body="type" type="string">
+      Position type (buy/sell)
+    </ParamField>
+    <ParamField body="volume" type="number">
+      Position volume in lots
+    </ParamField>
+    <ParamField body="openPrice" type="number">
+      Entry price
+    </ParamField>
+    <ParamField body="closePrice" type="number">
+      Exit price
+    </ParamField>
+    <ParamField body="profit" type="number">
+      Final profit/loss
+    </ParamField>
+    <ParamField body="openTime" type="string">
+      Position open timestamp
+    </ParamField>
+    <ParamField body="closeTime" type="string">
+      Position close timestamp
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## Response
+
+<ResponseField name="status" type="string">
+  Operation status ("ok" or "error")
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  Status message
+</ResponseField>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://your-api.com/mt5/update/history \
+  -H "Content-Type: application/json" \
+  -d '{
+    "accountNumber": "12345678",
+    "closedPositions": [
+      {
+        "ticket": 123455,
+        "symbol": "GBPUSD",
+        "type": "sell",
+        "volume": 0.5,
+        "openPrice": 1.2650,
+        "closePrice": 1.2600,
+        "profit": 250.00,
+        "openTime": "2024-01-14T08:00:00.000Z",
+        "closeTime": "2024-01-15T14:30:00.000Z"
+      }
+    ]
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "status": "ok",
+  "message": "History updated"
+}
+```
+
+```json 500
+{
+  "status": "error"
+}
+```
+</ResponseExample>

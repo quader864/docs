@@ -1,0 +1,54 @@
+---
+title: 'API info'
+description: 'Get API information and available endpoints'
+api: 'GET /'
+---
+
+## Response
+
+<ResponseField name="message" type="string">
+  API name
+</ResponseField>
+
+<ResponseField name="version" type="string">
+  API version
+</ResponseField>
+
+<ResponseField name="endpoints" type="object">
+  Available endpoint groups
+  <Expandable title="properties">
+    <ResponseField name="auth" type="array">
+      Authentication endpoints
+    </ResponseField>
+    <ResponseField name="mt5" type="array">
+      MT5 data endpoints
+    </ResponseField>
+    <ResponseField name="sentiment" type="array">
+      Sentiment endpoints
+    </ResponseField>
+    <ResponseField name="health" type="array">
+      Health check endpoints
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```bash cURL
+curl https://your-api.com/
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "message": "MT5 Monitor API",
+  "version": "1.0.0",
+  "endpoints": {
+    "auth": ["/login", "/logout", "/verify", "/web-register"],
+    "mt5": ["/mt5/update/account", "/mt5/update/orders", "/mt5/update/history"],
+    "sentiment": ["/api/sentiment"],
+    "health": ["/health"]
+  }
+}
+```
+</ResponseExample>

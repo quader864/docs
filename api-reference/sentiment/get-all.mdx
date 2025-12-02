@@ -1,0 +1,62 @@
+---
+title: 'Get all sentiment'
+description: 'Retrieve the latest sentiment data for all currency pairs'
+api: 'GET /api/sentiment'
+---
+
+## Response
+
+Returns an array of the 50 most recent sentiment records, sorted by date (newest first).
+
+<ResponseField name="data" type="array">
+  Array of sentiment objects
+  <Expandable title="sentiment object">
+    <ResponseField name="pair" type="string">
+      Currency pair (e.g., "EURUSD")
+    </ResponseField>
+    <ResponseField name="date" type="string">
+      Timestamp of the sentiment data
+    </ResponseField>
+    <ResponseField name="long" type="object">
+      Long position data
+      <Expandable title="properties">
+        <ResponseField name="percent" type="number">
+          Percentage of long positions
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="short" type="object">
+      Short position data
+      <Expandable title="properties">
+        <ResponseField name="percent" type="number">
+          Percentage of short positions
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```bash cURL
+curl https://your-api.com/api/sentiment
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+[
+  {
+    "pair": "EURUSD",
+    "date": "2024-01-15T12:00:00.000Z",
+    "long": { "percent": 45 },
+    "short": { "percent": 55 }
+  },
+  {
+    "pair": "GBPUSD",
+    "date": "2024-01-15T12:00:00.000Z",
+    "long": { "percent": 62 },
+    "short": { "percent": 38 }
+  }
+]
+```
+</ResponseExample>

@@ -1,0 +1,87 @@
+---
+title: 'Update post'
+description: 'Update an existing blog post'
+api: 'PATCH /api/blog/{id}'
+---
+
+<Note>
+  This endpoint requires authentication. Only the author or an admin can update a post.
+</Note>
+
+## Path parameters
+
+<ParamField path="id" type="string" required>
+  The post ID
+</ParamField>
+
+## Request body
+
+<ParamField body="title" type="string">
+  Updated post title
+</ParamField>
+
+<ParamField body="contentRaw" type="string">
+  Updated post content
+</ParamField>
+
+<ParamField body="summary" type="string">
+  Updated summary
+</ParamField>
+
+<ParamField body="tags" type="array">
+  Updated tags array
+</ParamField>
+
+<ParamField body="coverImageUrl" type="string">
+  Updated cover image URL
+</ParamField>
+
+## Response
+
+Returns the updated blog post. A revision is automatically created to track changes.
+
+<Note>
+  If a regular user edits a public post, it will be set back to "pending" status for re-approval.
+</Note>
+
+<RequestExample>
+```bash cURL
+curl -X PATCH https://your-api.com/api/blog/65a1b2c3d4e5f6g7h8i9j0k1 \
+  -H "Authorization: Bearer <your-token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Updated Trading Strategy",
+    "contentRaw": "# Updated Introduction\n\nNew content here...",
+    "summary": "Updated summary"
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "_id": "65a1b2c3d4e5f6g7h8i9j0k1",
+  "title": "Updated Trading Strategy",
+  "slug": "my-trading-strategy-xyz789",
+  "summary": "Updated summary",
+  "content": "# Updated Introduction\n\nNew content here...",
+  "visibility": "pending",
+  "updatedAt": "2024-01-16T14:00:00.000Z",
+  "revisions": [
+    {
+      "revId": "rev-abc123",
+      "editorId": "user-id",
+      "editorRole": "user",
+      "editedAt": "2024-01-16T14:00:00.000Z",
+      "summary": "Updated summary"
+    }
+  ]
+}
+```
+
+```json 403
+{
+  "error": "Forbidden"
+}
+```
+</ResponseExample>

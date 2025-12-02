@@ -1,0 +1,48 @@
+---
+title: 'Toggle like'
+description: 'Like or unlike a blog post'
+api: 'POST /api/blog/{id}/toggle-like'
+---
+
+<Note>
+  This endpoint requires authentication.
+</Note>
+
+## Path parameters
+
+<ParamField path="id" type="string" required>
+  The post ID
+</ParamField>
+
+## Response
+
+<ResponseField name="liked" type="boolean">
+  `true` if the post is now liked, `false` if unliked
+</ResponseField>
+
+<ResponseField name="likesCount" type="number">
+  Updated total likes count
+</ResponseField>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://your-api.com/api/blog/65a1b2c3d4e5f6g7h8i9j0k1/toggle-like \
+  -H "Authorization: Bearer <your-token>"
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200 Liked
+{
+  "liked": true,
+  "likesCount": 43
+}
+```
+
+```json 200 Unliked
+{
+  "liked": false,
+  "likesCount": 42
+}
+```
+</ResponseExample>

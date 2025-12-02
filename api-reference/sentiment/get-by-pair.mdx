@@ -1,0 +1,68 @@
+---
+title: 'Get sentiment by pair'
+description: 'Retrieve sentiment data for a specific currency pair'
+api: 'GET /api/sentiment/{pair}'
+---
+
+## Path parameters
+
+<ParamField path="pair" type="string" required>
+  Currency pair (e.g., "EURUSD", "GBPUSD")
+</ParamField>
+
+## Query parameters
+
+<ParamField query="startDate" type="string">
+  Filter results from this date (ISO 8601 format)
+</ParamField>
+
+<ParamField query="endDate" type="string">
+  Filter results until this date (ISO 8601 format)
+</ParamField>
+
+## Response
+
+Returns an array of sentiment data formatted for charting, sorted by date (oldest first).
+
+<ResponseField name="data" type="array">
+  Array of chart data points
+  <Expandable title="data point">
+    <ResponseField name="date" type="string">
+      Timestamp
+    </ResponseField>
+    <ResponseField name="long" type="number">
+      Long position percentage
+    </ResponseField>
+    <ResponseField name="short" type="number">
+      Short position percentage
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```bash cURL
+curl "https://your-api.com/api/sentiment/EURUSD?startDate=2024-01-01&endDate=2024-01-15"
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+[
+  {
+    "date": "2024-01-01T00:00:00.000Z",
+    "long": 48,
+    "short": 52
+  },
+  {
+    "date": "2024-01-02T00:00:00.000Z",
+    "long": 45,
+    "short": 55
+  },
+  {
+    "date": "2024-01-03T00:00:00.000Z",
+    "long": 51,
+    "short": 49
+  }
+]
+```
+</ResponseExample>

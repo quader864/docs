@@ -1,0 +1,25 @@
+---
+title: 'Logout'
+description: 'Log out the current user and clear authentication'
+api: 'POST /logout'
+---
+
+## Response
+
+<ResponseField name="message" type="string">
+  Logout confirmation message
+</ResponseField>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://your-api.com/logout
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "message": "Logged out"
+}
+```
+</ResponseExample>

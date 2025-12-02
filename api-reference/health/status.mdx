@@ -1,0 +1,35 @@
+---
+title: 'Health check'
+description: 'Check API health status'
+api: 'GET /health'
+---
+
+## Response
+
+<ResponseField name="status" type="string">
+  Health status ("ok")
+</ResponseField>
+
+<ResponseField name="timestamp" type="string">
+  Current server timestamp (ISO 8601)
+</ResponseField>
+
+<ResponseField name="service" type="string">
+  Service name
+</ResponseField>
+
+<RequestExample>
+```bash cURL
+curl https://your-api.com/health
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "status": "ok",
+  "timestamp": "2024-01-15T12:00:00.000Z",
+  "service": "MT5 Monitor API"
+}
+```
+</ResponseExample>

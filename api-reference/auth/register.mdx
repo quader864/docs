@@ -1,0 +1,69 @@
+---
+title: 'Register'
+description: 'Create a new user account'
+api: 'POST /web-register'
+---
+
+## Request body
+
+<ParamField body="firstName" type="string" required>
+  User's first name
+</ParamField>
+
+<ParamField body="lastName" type="string" required>
+  User's last name
+</ParamField>
+
+<ParamField body="email" type="string" required>
+  User's email address
+</ParamField>
+
+<ParamField body="password" type="string" required>
+  User's password (minimum 6 characters)
+</ParamField>
+
+<ParamField body="profilePic" type="string">
+  Profile picture URL (optional)
+</ParamField>
+
+<ParamField body="role" type="string">
+  User role (defaults to "user")
+</ParamField>
+
+## Response
+
+<ResponseField name="message" type="string">
+  Success message
+</ResponseField>
+
+<ResponseField name="token" type="string">
+  JWT authentication token
+</ResponseField>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://your-api.com/web-register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "user@example.com",
+    "password": "securepassword123"
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json 201
+{
+  "message": "Registered successfully",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
+```json 409
+{
+  "message": "User already exists"
+}
+```
+</ResponseExample>
