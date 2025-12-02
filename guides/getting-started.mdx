@@ -1,0 +1,76 @@
+---
+title: 'Getting started'
+description: 'Overview of the MT5 Monitor API and how to get started'
+---
+
+## What is MT5 Monitor API?
+
+The MT5 Monitor API is a backend service for tracking MT5 trading accounts, managing market sentiment data, and running a blog platform with moderation features.
+
+## Core features
+
+<CardGroup cols={2}>
+  <Card title="MT5 data sync" icon="chart-line">
+    Push account balances, open orders, and trade history from MT5
+  </Card>
+  <Card title="Sentiment tracking" icon="chart-pie">
+    Store and retrieve market sentiment data for currency pairs
+  </Card>
+  <Card title="Blog platform" icon="newspaper">
+    Full blog system with posts, likes, and moderation workflow
+  </Card>
+  <Card title="User management" icon="users">
+    Role-based access control with user, moderator, and admin roles
+  </Card>
+</CardGroup>
+
+## Base URL
+
+All API requests should be made to:
+
+```
+https://api-verifier-2.onrender.com
+```
+
+## Authentication
+
+The API uses JWT tokens for authentication. After logging in, the token is set as an HTTP-only cookie. For programmatic access, you can also pass the token in the `Authorization` header:
+
+```bash
+Authorization: Bearer <your-token>
+```
+
+### Public endpoints (no auth required)
+
+- `GET /health` - Health check
+- `GET /api/sentiment` - Get sentiment data
+- `GET /api/blog` - Get public blog posts
+- `POST /login` - Login
+- `POST /web-register` - Register
+
+### Protected endpoints
+
+All other endpoints require authentication. Some endpoints also require specific roles (moderator or admin).
+
+## User roles
+
+| Role | Permissions |
+|------|-------------|
+| **user** | Create posts, like posts, edit own posts |
+| **moderator** | All user permissions + approve/reject posts |
+| **admin** | All permissions + manage users and roles |
+
+## Rate limiting
+
+The API implements rate limiting to prevent abuse. If you exceed the limit, you'll receive a `429 Too Many Requests` response. Wait a few seconds before retrying.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Make your first API call
+  </Card>
+  <Card title="API reference" icon="code" href="/api-reference/introduction">
+    Explore all endpoints
+  </Card>
+</CardGroup>
