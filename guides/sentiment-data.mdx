@@ -1,0 +1,116 @@
+---
+title: 'Sentiment data'
+description: 'Retrieve and use market sentiment data'
+---
+
+## Overview
+
+The sentiment API provides market positioning data for currency pairs, showing the percentage of traders holding long vs short positions.
+
+## Get all sentiment data
+
+Retrieve the 50 most recent sentiment records:
+
+```bash
+curl https://api-verifier-2.onrender.com/api/sentiment
+```
+
+Response:
+
+```json
+[
+  {
+    "pair": "EURUSD",
+    "date": "2024-01-15T12:00:00.000Z",
+    "long": { "percent": 45 },
+    "short": { "percent": 55 }
+  },
+  {
+    "pair": "GBPUSD",
+    "date": "2024-01-15T12:00:00.000Z",
+    "long": { "percent": 62 },
+    "short": { "percent": 38 }
+  }
+]
+```
+
+## Get sentiment for a specific pair
+
+```bash
+curl https://api-verifier-2.onrender.com/api/sentiment/EURUSD
+```
+
+### Filter by date range
+
+```bash
+curl "https://api-verifier-2.onrender.com/api/sentiment/EURUSD?startDate=2024-01-01&endDate=2024-01-15"
+```
+
+Response (formatted for charting):
+
+```json
+[
+  {
+    "date": "2024-01-01T00:00:00.000Z",
+    "long": 48,
+    "short": 52
+  },
+  {
+    "date": "2024-01-02T00:00:00.000Z",
+    "long": 45,
+    "short": 55
+  }
+]
+```
+
+## Using sentiment data
+
+### Contrarian indicator
+
+Retail sentiment is often used as a contrarian indicator:
+
+- **High long percentage (>70%)** → Consider short positions
+- **High short percentage (>70%)** → Consider long positions
+
+### JavaScript example
+
+```javascript
+async function getSentiment(pair) {
+  const response = await fetch(
+    `https://api-verifier-2.onrender.com/api/sentiment/${pair}`
+  );
+  const data = await response.json();
+  
+  const latest = data[data.length - 1];
+  console.log(`${pair}: ${latest.long}% long, ${latest.short}% short`);
+  
+  if (latest.long > 70) {
+    console.log('Contrarian signal: Consider SHORT');
+  } else if (latest.short > 70) {
+    console.log('Contrarian signal: Consider LONG');
+  }
+  
+  return data;
+}
+
+getSentiment('EURUSD');
+```
+
+### Chart integration
+
+The date-filtered endpoint returns data sorted oldest-first, making it ready for time-series charts:
+
+```javascript
+const data = await fetch(
+  'https://api-verifier-2.onrender.com/api/sentiment/EURUSD?startDate=2024-01-01'
+).then(r => r.json());
+
+// Data is ready for Chart.js, Recharts, etc.
+const chartData = {
+  labels: data.map(d => d.date),
+  datasets: [
+    { label: 'Long %', data: data.map(d => d.long) },
+    { label: 'Short %', data: data.map(d => d.short) }
+  ]
+};
+```
