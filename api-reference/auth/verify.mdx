@@ -1,0 +1,72 @@
+---
+title: 'Verify token'
+description: 'Verify the current authentication token and get user info'
+api: 'POST /verify'
+---
+
+<Note>
+  This endpoint requires authentication. Include your JWT token in the request.
+</Note>
+
+## Response
+
+<ResponseField name="status" type="string">
+  Authorization status ("authorized" or "unauthorized")
+</ResponseField>
+
+<ResponseField name="user" type="object">
+  User information (only if authorized)
+  <Expandable title="properties">
+    <ResponseField name="firstName" type="string">
+      User's first name
+    </ResponseField>
+    <ResponseField name="lastName" type="string">
+      User's last name
+    </ResponseField>
+    <ResponseField name="email" type="string">
+      User's email
+    </ResponseField>
+    <ResponseField name="role" type="string">
+      User role
+    </ResponseField>
+    <ResponseField name="likedPosts" type="array">
+      Array of liked post IDs
+    </ResponseField>
+    <ResponseField name="profilePic" type="string">
+      Profile picture URL
+    </ResponseField>
+    <ResponseField name="createdAt" type="string">
+      Account creation timestamp
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://your-api.com/verify \
+  -H "Authorization: Bearer <your-token>"
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "status": "authorized",
+  "user": {
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "user@example.com",
+    "role": "user",
+    "likedPosts": [],
+    "profilePic": "",
+    "createdAt": "2024-01-15T10:30:00.000Z"
+  }
+}
+```
+
+```json 401
+{
+  "status": "unauthorized"
+}
+```
+</ResponseExample>
