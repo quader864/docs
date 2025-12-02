@@ -1,0 +1,90 @@
+---
+title: 'Get post by slug'
+description: 'Retrieve a single blog post by its slug'
+api: 'GET /api/blog/{slug}'
+---
+
+## Path parameters
+
+<ParamField path="slug" type="string" required>
+  The URL-friendly slug of the post
+</ParamField>
+
+## Response
+
+<ResponseField name="post" type="object">
+  Blog post object
+  <Expandable title="properties">
+    <ResponseField name="_id" type="string">
+      Post ID
+    </ResponseField>
+    <ResponseField name="title" type="string">
+      Post title
+    </ResponseField>
+    <ResponseField name="slug" type="string">
+      URL-friendly slug
+    </ResponseField>
+    <ResponseField name="summary" type="string">
+      Post summary
+    </ResponseField>
+    <ResponseField name="content" type="string">
+      Post content
+    </ResponseField>
+    <ResponseField name="contentRaw" type="string">
+      Raw content for editing
+    </ResponseField>
+    <ResponseField name="tags" type="array">
+      Array of tags
+    </ResponseField>
+    <ResponseField name="coverImageUrl" type="string">
+      Cover image URL
+    </ResponseField>
+    <ResponseField name="authorId" type="object">
+      Author information
+    </ResponseField>
+    <ResponseField name="likesCount" type="number">
+      Number of likes
+    </ResponseField>
+    <ResponseField name="likedBy" type="array">
+      Array of user IDs who liked the post
+    </ResponseField>
+    <ResponseField name="revisions" type="array">
+      Edit history
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```bash cURL
+curl https://your-api.com/api/blog/getting-started-with-mt5-trading-abc123
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "_id": "65a1b2c3d4e5f6g7h8i9j0k1",
+  "title": "Getting Started with MT5 Trading",
+  "slug": "getting-started-with-mt5-trading-abc123",
+  "summary": "Learn the basics of MT5 trading platform",
+  "content": "Full post content here...",
+  "contentRaw": "Raw markdown content...",
+  "tags": ["trading", "mt5", "beginner"],
+  "coverImageUrl": "https://example.com/image.jpg",
+  "authorId": {
+    "firstName": "John",
+    "lastName": "Doe"
+  },
+  "likesCount": 42,
+  "visibility": "public",
+  "createdAt": "2024-01-10T08:00:00.000Z",
+  "publishedAt": "2024-01-12T10:00:00.000Z"
+}
+```
+
+```json 404
+{
+  "error": "Post not found"
+}
+```
+</ResponseExample>
