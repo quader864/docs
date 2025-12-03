@@ -89,6 +89,12 @@
               "api-reference/health/status",
               "api-reference/health/info"
             ]
+          },
+          {
+            "group": "Testing",
+            "pages": [
+              "api-reference/test/full-test"
+            ]
           }
         ]
       }
