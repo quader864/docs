@@ -17,6 +17,9 @@ api: 'POST /verify'
 <ResponseField name="user" type="object">
   User information (only if authorized)
   <Expandable title="properties">
+    <ResponseField name="user_id" type="string">
+      Unique user identifier (16-character nanoid)
+    </ResponseField>
     <ResponseField name="firstName" type="string">
       User's first name
     </ResponseField>
@@ -27,7 +30,10 @@ api: 'POST /verify'
       User's email
     </ResponseField>
     <ResponseField name="role" type="string">
-      User role
+      User role (`user`, `admin`, or `moderator`)
+    </ResponseField>
+    <ResponseField name="profilePic" type="string">
+      Profile picture URL (null if not set)
     </ResponseField>
     <ResponseField name="likedPosts" type="array">
       Array of liked post IDs
