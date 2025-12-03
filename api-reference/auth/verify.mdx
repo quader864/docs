@@ -17,6 +17,9 @@ api: 'POST /verify'
 <ResponseField name="user" type="object">
   User information (only if authorized)
   <Expandable title="properties">
+    <ResponseField name="user_id" type="string">
+      Unique user identifier (16-character nanoid)
+    </ResponseField>
     <ResponseField name="firstName" type="string">
       User's first name
     </ResponseField>
@@ -27,7 +30,10 @@ api: 'POST /verify'
       User's email
     </ResponseField>
     <ResponseField name="role" type="string">
-      User role
+      User role (`user`, `admin`, or `moderator`)
+    </ResponseField>
+    <ResponseField name="profilePic" type="string">
+      Profile picture URL (null if not set)
     </ResponseField>
     <ResponseField name="likedPosts" type="array">
       Array of liked post IDs
@@ -50,10 +56,12 @@ curl -X POST https://api-verifier-2.onrender.com/verify \
 {
   "status": "authorized",
   "user": {
+    "user_id": "abc123xyz789def0",
     "firstName": "John",
     "lastName": "Doe",
     "email": "user@example.com",
     "role": "user",
+    "profilePic": null,
     "likedPosts": [],
     "createdAt": "2024-01-15T10:30:00.000Z"
   }

@@ -1,0 +1,127 @@
+---
+title: 'Full model test'
+description: 'Test all database models by creating dummy data in a transaction'
+api: 'GET /api/test/full-test'
+---
+
+<Warning>
+  This endpoint is for testing purposes only. It creates dummy data across all models using a database transaction.
+</Warning>
+
+## Overview
+
+This endpoint tests all Shop models by creating interconnected dummy data within a single MongoDB transaction. If any creation fails, the entire transaction is rolled back.
+
+## Models tested
+
+The endpoint creates test records for the following models:
+
+- **User** - Test user account
+- **Category** - Product category
+- **Product** - Shop product
+- **Promotion** - Product promotion/discount
+- **File** - Product file attachment
+- **BlogPost** - Blog post content
+- **EditHistory** - Blog edit tracking
+- **Cart** - Shopping cart
+- **Order** - Customer order
+- **OrderItem** - Order line items
+- **Transaction** - Payment transaction
+- **Subscription** - User subscription
+- **Review** - Product review
+- **Notification** - User notification
+- **SupportTicket** - Customer support ticket
+
+## Response
+
+<ResponseField name="message" type="string">
+  Success message confirming test completion
+</ResponseField>
+
+<ResponseField name="created" type="object">
+  Object containing IDs of all created records
+  <Expandable title="properties">
+    <ResponseField name="user" type="string">
+      Created user ID
+    </ResponseField>
+    <ResponseField name="category" type="string">
+      Created category ID
+    </ResponseField>
+    <ResponseField name="product" type="string">
+      Created product ID
+    </ResponseField>
+    <ResponseField name="promotion" type="string">
+      Created promotion ID
+    </ResponseField>
+    <ResponseField name="file" type="string">
+      Created file ID
+    </ResponseField>
+    <ResponseField name="blog" type="string">
+      Created blog post ID
+    </ResponseField>
+    <ResponseField name="editHistory" type="string">
+      Created edit history ID
+    </ResponseField>
+    <ResponseField name="cart" type="string">
+      Created cart ID
+    </ResponseField>
+    <ResponseField name="order" type="string">
+      Created order ID
+    </ResponseField>
+    <ResponseField name="orderItem" type="string">
+      Created order item ID
+    </ResponseField>
+    <ResponseField name="transaction" type="string">
+      Created transaction ID
+    </ResponseField>
+    <ResponseField name="subscription" type="string">
+      Created subscription ID
+    </ResponseField>
+    <ResponseField name="review" type="string">
+      Created review ID
+    </ResponseField>
+    <ResponseField name="notification" type="string">
+      Created notification ID
+    </ResponseField>
+    <ResponseField name="supportTicket" type="string">
+      Created support ticket ID
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```bash cURL
+curl -X GET https://api-verifier-2.onrender.com/api/test/full-test
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "message": "Full model test successful",
+  "created": {
+    "user": "507f1f77bcf86cd799439011",
+    "category": "507f1f77bcf86cd799439012",
+    "product": "507f1f77bcf86cd799439013",
+    "promotion": "507f1f77bcf86cd799439014",
+    "file": "507f1f77bcf86cd799439015",
+    "blog": "507f1f77bcf86cd799439016",
+    "editHistory": "507f1f77bcf86cd799439017",
+    "cart": "507f1f77bcf86cd799439018",
+    "order": "507f1f77bcf86cd799439019",
+    "orderItem": "507f1f77bcf86cd79943901a",
+    "transaction": "507f1f77bcf86cd79943901b",
+    "subscription": "507f1f77bcf86cd79943901c",
+    "review": "507f1f77bcf86cd79943901d",
+    "notification": "507f1f77bcf86cd79943901e",
+    "supportTicket": "507f1f77bcf86cd79943901f"
+  }
+}
+```
+
+```json 500
+{
+  "error": "Transaction failed: validation error message"
+}
+```
+</ResponseExample>
