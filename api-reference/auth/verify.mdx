@@ -17,14 +17,14 @@ api: 'POST /verify'
 <ResponseField name="user" type="object">
   User information (only if authorized)
   <Expandable title="properties">
-    <ResponseField name="user_id" type="string">
-      Unique user identifier (16-character nanoid)
-    </ResponseField>
     <ResponseField name="firstName" type="string">
       User's first name
     </ResponseField>
     <ResponseField name="lastName" type="string">
       User's last name
+    </ResponseField>
+    <ResponseField name="username" type="string">
+      User's username
     </ResponseField>
     <ResponseField name="email" type="string">
       User's email
@@ -34,6 +34,27 @@ api: 'POST /verify'
     </ResponseField>
     <ResponseField name="profilePic" type="string">
       Profile picture URL (null if not set)
+    </ResponseField>
+    <ResponseField name="country" type="string">
+      User's country (null if not set)
+    </ResponseField>
+    <ResponseField name="city" type="string">
+      User's city (null if not set)
+    </ResponseField>
+    <ResponseField name="passportId" type="string">
+      User's passport ID (null if not set)
+    </ResponseField>
+    <ResponseField name="phoneNumber" type="string">
+      User's phone number (null if not set)
+    </ResponseField>
+    <ResponseField name="address" type="string">
+      User's address (null if not set)
+    </ResponseField>
+    <ResponseField name="profileVerification" type="object">
+      Profile verification status
+    </ResponseField>
+    <ResponseField name="verification" type="object">
+      User verification details including email and identity verification status
     </ResponseField>
     <ResponseField name="likedPosts" type="array">
       Array of liked post IDs
@@ -56,12 +77,33 @@ curl -X POST https://api-verifier-2.onrender.com/verify \
 {
   "status": "authorized",
   "user": {
-    "user_id": "abc123xyz789def0",
     "firstName": "John",
     "lastName": "Doe",
+    "username": "johndoe",
     "email": "user@example.com",
     "role": "user",
-    "profilePic": null,
+    "profilePic": "https://example.com/profile.jpg",
+    "country": "USA",
+    "city": "New York",
+    "passportId": "AB123456",
+    "phoneNumber": "+1234567890",
+    "address": "123 Main St",
+    "profileVerification": {
+      "requiresReview": false,
+      "status": "verified",
+      "rejectionReason": null
+    },
+    "verification": {
+      "overall": "fully_verified",
+      "email": {
+        "verified": true,
+        "verifiedAt": "2024-12-10T10:00:00.000Z"
+      },
+      "identity": {
+        "verified": true,
+        "verifiedAt": "2024-12-11T15:30:00.000Z"
+      }
+    },
     "likedPosts": [],
     "createdAt": "2024-01-15T10:30:00.000Z"
   }

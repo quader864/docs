@@ -45,7 +45,10 @@
               "api-reference/auth/login",
               "api-reference/auth/register",
               "api-reference/auth/verify",
-              "api-reference/auth/logout"
+              "api-reference/auth/logout",
+              "api-reference/auth/password-change",
+              "api-reference/auth/password-recovery-send",
+              "api-reference/auth/password-recovery-reset"
             ]
           },
           {
